@@ -24,7 +24,7 @@ public class DBConnection {
             }
 
             if (is != null) {
-                // Read properties with UTF-8 encoding and strip BOM if present
+                
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
                 Properties rawProps = new Properties();
                 rawProps.load(reader);
@@ -35,7 +35,7 @@ public class DBConnection {
                 }
                 reader.close();
             } else {
-                // Default fallback configuration
+                
                 properties.setProperty("db.url", "jdbc:mysql://localhost:3306/college_event_db?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false");
                 properties.setProperty("db.user", "root");
                 properties.setProperty("db.password", "");
@@ -78,7 +78,7 @@ public class DBConnection {
 
         Connection con = DriverManager.getConnection(url, user, password);
 
-        // Auto-initialize schema and default seed data on first successful connection
+        
         if (!initialized) {
             synchronized (DBConnection.class) {
                 if (!initialized) {
@@ -105,7 +105,7 @@ public class DBConnection {
                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
             );
 
-            // 2. Create events table
+           
             stmt.executeUpdate(
                 "CREATE TABLE IF NOT EXISTS events (" +
                 "  event_id INT AUTO_INCREMENT PRIMARY KEY," +
@@ -123,7 +123,7 @@ public class DBConnection {
                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
             );
 
-            // 3. Create registrations table
+           
             stmt.executeUpdate(
                 "CREATE TABLE IF NOT EXISTS registrations (" +
                 "  registration_id INT AUTO_INCREMENT PRIMARY KEY," +
@@ -137,7 +137,7 @@ public class DBConnection {
                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
             );
 
-            // Seed default students if empty
+            
             ResultSet rsStudentCount = stmt.executeQuery("SELECT COUNT(*) FROM students");
             if (rsStudentCount.next() && rsStudentCount.getInt(1) == 0) {
                 stmt.executeUpdate(
@@ -150,7 +150,7 @@ public class DBConnection {
             }
             rsStudentCount.close();
 
-            // Seed default events if empty
+           
             ResultSet rsEventCount = stmt.executeQuery("SELECT COUNT(*) FROM events");
             if (rsEventCount.next() && rsEventCount.getInt(1) == 0) {
                 stmt.executeUpdate(
