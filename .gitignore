@@ -1,7 +1,0 @@
-
-out/
-*.class
-*.log
-.vscode/
-.idea/
-db.properties
